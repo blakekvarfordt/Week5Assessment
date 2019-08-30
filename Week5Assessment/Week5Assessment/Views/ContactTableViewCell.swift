@@ -18,7 +18,9 @@ class ContactTableViewCell: UITableViewCell {
     // Comtact property that updates cell labels when a contact is set
     var contact: Contact? {
         didSet {
-            
+            DispatchQueue.main.async {
+                self.updateViews()
+            }
         }
     }
     

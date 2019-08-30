@@ -68,4 +68,31 @@ class ContactController {
             completion(true)
         }
     }
+    
+    func updateRecords(contact: Contact, completion: @escaping (Bool) -> Void) {
+        
+        let operation = CKModifyRecordsOperation()
+        
+        operation.recordsToSave = [CKRecord(contact: contact)]
+        
+        operation.savePolicy = .changedKeys
+        operation.qualityOfService = .userInteractive
+        operation.queuePriority = .high
+        operation.completionBlock = {
+            completion(true)
+            print("Contact was updated")
+        }
+        
+        database.add(operation)
+    }
+    
+    func updateContacts(contact: Contact?, name: String, number: String?, email: String?) {
+        guard let contact = contact else { return }
+        contact.name = name
+        contact.number = number
+        contact.email = email
+        updateRecords(contact: contact) { (_) in
+            print("yessir")
+        }
+    }
 }
